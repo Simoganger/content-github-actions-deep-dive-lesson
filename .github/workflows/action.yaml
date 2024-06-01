@@ -33,7 +33,7 @@ jobs:
             - name: Check out code
               uses: actions/checkout@v4
             - name: Set up python
-              uses: actions/setup-python@v4
+              uses: actions/setup-python@v2
               with:
                  python-version: 3.8
             - name: Install libraries
@@ -46,7 +46,7 @@ jobs:
                 cd function
                 zip -r ../${{ github.sha }}.zip .
             - name: Archive artifact
-              uses: actions/upload-artifact@v4
+              uses: actions/upload-artifact@v2
               with:
                 name: zipped-bundle
                 path: ${{ github.sha }}.zip 
