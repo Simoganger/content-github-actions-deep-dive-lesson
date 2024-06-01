@@ -59,13 +59,13 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v2
             - name: Create release
-              id: create_release
+              id: create-release
               uses: actions/create-release@v1
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                tag_name: 1.0.0
-                release_name: Release 1.0.0
+                tag_name: 1.0.1
+                release_name: Release 1.0.1
                 body: |
                     Changes in this release
                     - Adding lint step to pipeline
@@ -73,3 +73,16 @@ jobs:
                     - Adding release step to pipeline
                 draft: false
                 prerelease: false
+            - name: Download artifact
+              uses: actions/download-artifact@v2
+              with:
+                name: zipped-bundle
+            - name: Upload release asset
+              uses: actions/upload-release-asset@v1
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                upload_url: ${{ steps.create-release.outputs.upload_url }}
+                asset_path: ./${{ github.sha }}.zip
+                asset_name: source_code_with_libraries.zip
+                asset_content_type: application/zip
